@@ -18,11 +18,38 @@ const index = (req, res) => {
 }
 
 
-//metodo show
+//metodo show connesso al database
 const show = (req, res) => {
-    res.send("Post con id:" + req.params.id)
+    //recupero l'id
+    const id = req.params.id
+    //creo la query
+    const sql = "SELECT * FROM posts WHERE id = ?";
+    //eseguo la query
+    connection.query(sql, [id], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: "Database query failed" + err })
+        }
+        //verifico se il post esiste
+        if (results.length === 0) return res.status(404).json({ error: "Post non found" })
+        res.json(results)
+    })
+}
+//metodo destroy connesso al database
+const destroy = (req, res) => {
+    //recupero l'id
+    const id = req.params.id;
+    //creo la query
+    connection.query("DELETE FROM posts WHERE id = ?", [id], (err) => {
+        //un solo parametro perchè destroy devo restituire solo lo stato
+        if (err) return res.status(500).json({ error: "Database query failed" + err })
+
+        res.sendStatus(204)
+
+    })
 }
 
+
+
 module.exports = {
-    index, show
+    index, show, destroy
 }
