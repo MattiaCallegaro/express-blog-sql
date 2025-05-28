@@ -11,8 +11,10 @@ const index = (req, res) => {
         if (err) {
             return res.status(500).json({ error: "Database query failed" })
         }
+        console.log(results)
+        res.json(results)
     })
-    res.send("Elenco post")
+    // res.send("Elenco post")
 }
 
 
