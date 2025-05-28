@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
     database: process.env.DB_NAME
 });
 
-//utilizzo l avariabile per instaurare una connesione al database
+//utilizzo la variabile per instaurare una connesione al database
 connection.connect((err) => {
     if (err) throw err;
     console.log("Connected to MySQL")
